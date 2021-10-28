@@ -55,7 +55,7 @@ function setErrorMessage(error) {
 
 function onClickSave() {
     let errorMessage = "";
-    const errorMessagePointer = moduleExports._Create_Buffer(256); // 모듈 메모리 확보 256바이트
+    const errorMessagePointer = moduleExports.malloc(256); // 모듈 메모리 확보 256바이트
 
     const name = document.getElementById("name").value;
     const categoryId = getSelectedCategoryId();
@@ -83,12 +83,12 @@ function validateName(name, errorMessagePointer)
 }
 
 function validateCategory(categoryId, errorMessagePointer) {
-    const categoryIdPointer = moduleExports._Create_Buffer((categoryId.length + 1));
+    const categoryIdPointer = moduleExports.malloc((categoryId.length + 1));
     copyStringToMemory(categoryId, categoryIdPointer);
 
     const arrayLength = VALID_CATEGORY_IDS.length;
     const bytesPerElement = Int32Array.BYTES_PER_ELEMENT;
-    const arrayPointer = moduleExports._Create_Buffer((arrayLength * bytesPerElement));
+    const arrayPointer = moduleExports.malloc((arrayLength * bytesPerElement));
 
     const bytesForArray = new Int32Array(moduleMemory.buffer);
     bytesForArray.set(VALID_CATEGORY_IDS, (arrayPointer / bytesPerElement));
