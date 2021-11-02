@@ -5,15 +5,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <!-- 부트스트랩 -->
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- ��Ʈ��Ʈ�� -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 </head>
 <body onload="initializePage()">
     <div class="container">
         <h1>Edit Product</h1>
         <div id="errorMessage" class="alert alert-danger" role="alert" style="display:none;"></div>
-    
+
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" />
@@ -30,7 +32,8 @@
 
         <button type="button" class="btn btn-primary" onclick="onClickSave()">Save</button>
     </div>
-    <script src="js/bootstrap.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="editproduct.js"></script>
+    <script src="validate.js"></script>
 </body>
 </html>

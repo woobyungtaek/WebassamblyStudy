@@ -10,8 +10,7 @@ const initialData = {
 let moduleMemory = null;
 let moduleExports = null;
 
-function initializePage()
-{
+function initializePage() {
     document.getElementById("name").value = initialData.name;
 
     const category = document.getElementById("category");
@@ -25,9 +24,7 @@ function initializePage()
 
     const importObject = {
         env: {
-            _UpdateHostAboutError: function (errorMessagePointer) {
-                setErrorMessage(getStringFromMemory(errorMessagePointer));
-            },
+            _UpdateHostAboutError: function (errorMessagePointer) { setErrorMessage(getStringFromMemory(errorMessagePointer)); }
         }
     };
 
@@ -66,11 +63,10 @@ function onClickSave() {
     moduleExports.free(errorMessagePointer);
 
     setErrorMessage(errorMessage);
-    if (errorMessage === "") {}
+    if (errorMessage === "") { }
 }
 
-function validateName(name)
-{
+function validateName(name) {
     const namePointer = moduleExports.malloc((name.length + 1));
     copyStringToMemory(name, namePointer);
 
@@ -100,8 +96,7 @@ function validateCategory(categoryId) {
     return (isValid === 1);
 }
 
-function getStringFromMemory(memoryOffset)
-{
+function getStringFromMemory(memoryOffset) {
     let returnValue = "";
 
     const size = 256;
@@ -118,8 +113,7 @@ function getStringFromMemory(memoryOffset)
     return returnValue;
 }
 
-function copyStringToMemory(value, memoryOffset)
-{
+function copyStringToMemory(value, memoryOffset) {
     const bytes = new Uint8Array(moduleMemory.buffer);
     bytes.set(new TextEncoder().encode((value + "\0")), memoryOffset);
 }
