@@ -11,7 +11,6 @@ const initialProductData = {
     categoryId: "100",
 }
 
-
 function initializePage() {
     document.getElementById("name").value = initialProductData.name;
 
@@ -38,14 +37,16 @@ function switchForm(showEditProduct) {
 
     if (showEditProduct) {
         if (productModule === null) {
-            productModule = new Module({ dynamicLibraries: ['validate_product.wasm'] });
+            Module({ dynamicLibraries: ['validate_product.wasm'] }).then((result) => { productModule = result; })
+            //productModule = new Module({ dynamicLibraries: ['validate_product.wasm'] });
         }
         showElement("productForm", true);
         showElement("orderForm", false);
     }
     else {
         if (orderModule === null) {
-            orderModule = new Module({ dynamicLibraries: ['validate_order.wasm'] });
+            Module({ dynamicLibraries: ['validate_order.wasm'] }).then((result) => { orderModule = result; })
+            //orderModule = new Module({ dynamicLibraries : ['validate_order.wasm'] });
         }
         showElement("productForm", false);
         showElement("orderForm", true);
@@ -73,9 +74,6 @@ function showElement(elementId, show) {
     element.style.display = (show ? "" : "none");
 }
 
-
-
-
 function getSelectedDropdownId(elementId) {
     const dropdown = document.getElementById(elementId);
     const index = dropdown.selectedIndex;
@@ -98,29 +96,21 @@ function onClickSaveProduct() {
     if (validateName(name) && validateCategory(categoryId)) { }
 }
 
-
 function validateName(name) {
 
-    const isValid = productModule.ccall(
-        'ValidateName', //호출하려는 모듈 함수명
-        null, //함수 반환형
-        ['string', 'number'], // 매개변수 자료형 배열
-        [name, MAXIMUM_NAME_LENGTH] //매개변수 값 배열
-    );
+    const isValid = productModule.ccall('ValidateName', 'number', ['string', 'number'], [name, MAXIMUM_NAME_LENGTH]);
+
+    return (isValid === 1);
 }
 
 function validateCategory(categoryId) {
 
     const arrayLength = VALID_CATEGORY_IDS.length;
-    const bytesPerElement = Module.HEAP32.BYTES_PER_ELEMENT;
+    const bytesPerElement = productModule.HEAP32.BYTES_PER_ELEMENT;
     const arrayPointer = productModule._malloc((arrayLength * bytesPerElement));
     productModule.HEAP32.set(VALID_CATEGORY_IDS, (arrayPointer / bytesPerElement));
 
-    const isValid = productModule.ccall(
-        'ValidateCategory',
-        ['string', 'number', 'number'],
-        [categoryId, arrayPointer, arrayLength]
-    );
+    const isValid = productModule.ccall('ValidateCategory', 'number', ['string', 'number', 'number'], [categoryId, arrayPointer, arrayLength]);
 
     productModule._free(arrayPointer);
 
@@ -144,7 +134,8 @@ function validateProduct(productId) {
     orderModule.HEAP32.set(VALID_PRODUCT_IDS, (arrayPointer / bytesPerElement));
 
     const isValid = orderModule.ccall(
-        'ValidateProduct'
+        'ValidateProduct',
+        'number',
         ['string', 'number', 'number'],
         [productId, arrayPointer, arrayLength]
     );
