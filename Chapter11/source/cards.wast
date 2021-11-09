@@ -1,4 +1,16 @@
  (module
+	(type $FUNCSIG$v (func))
+	(type $FUNCSIG$vi (func (param i32)))
+	(type $FUNCSIG$vii (func (param i32 i32)))
+	
+	(type $FUNCSIG$viii (func (param i32 i32 i32)))
+	
+	(type $FUNCSIG$viiii (func (param i32 i32 i32 i32)))
+	
+	(type $FUNCSIG$ii (func (param i32) (result i32)))
+	
+	(type $FUNCSIG$iii (func (param i32 i32) (result i32)))
+
 	(import "env" "_GenerateCards"		(func $GenerateCards (param i32 i32 i32)))
 	(import "env" "_FlipCard"			(func $FlipCard (param i32 i32 i32)))
 	(import "env" "_RemoveCards"		(func $RemoveCards (param i32 i32 i32 i32)))
@@ -26,7 +38,7 @@
 	(global $second_card_column (mut i32) (i32.const 0))
 	(global $second_card_value (mut i32) (i32.const 0))
 
-	(global $execution_paused (mut i32)(i32.const 0))
+	(global $excution_paused (mut i32)(i32.const 0))
 
 	(export "_CardSelected" (func $CardSelected))
 	(export "_SecondCardSelectedCallBack" (func $SecondCardSelectedCallBack))
@@ -34,6 +46,8 @@
 	(export "_PlayNextLevel" (func $PlayNextLevel))
 
 	(start $main)
+	
+	(data (i32.const 1024) "SecondCardSelectedCallback")
 
 	(func $InitializeRowsAndColumns (param $level i32)
 		get_local $level
@@ -104,7 +118,7 @@
 		get_local $count
 		i32.const 2
 		i32.div_s
-		set_global $matches_remainig
+		set_global $matches_remaining
 
 		get_local $count
 		i32.const 2
@@ -202,7 +216,7 @@
 
 			get_local $memory_location1
 			i32.load
-			set_local $card-value
+			set_local $card_value
 
 			get_local $memory_location1
 			get_local $memory_location2
@@ -210,7 +224,7 @@
 			i32.store
 			
 			get_local $memory_location2
-			get_local $card-value
+			get_local $card_value
 			i32.store
 
 			get_local $index
@@ -229,8 +243,8 @@
 
 	(func $PlayLevel (param $level i32)
 		get_local $level
-		call $InitialzeCards
-		get-global $rows
+		call $InitializeCards
+		get_global $rows
 
 		get_global $columns
 		get_local $level
@@ -245,7 +259,7 @@
 		i32.add
 
 		i32.const 2
-		i32 shl
+		i32.shl
 		get_global $cards
 		i32.add
 		i32.load
@@ -266,7 +280,7 @@
 		call $GetCardValue
 		set_local $card_value
 
-		get_global $row
+		get_local $row
 		get_local $column
 		get_local $card_value
 		call $FlipCard
@@ -307,6 +321,94 @@
 
 			call $Pause
 			end
+	)
+
+	(func $IsFirstCard (param $row i32) (param $column i32) (result i32)
+		(local $rows_equal i32)
+		(local $columns_equal i32)
+
+		get_global $first_card_row
+		get_local $row
+		i32.eq
+		set_local $rows_equal
+
+		get_global $first_card_column
+		get_local $column
+		i32.eq
+		set_local $columns_equal
+
+		get_local $rows_equal
+		get_local $columns_equal
+		i32.and
+	)
+
+	(func $SecondCardSelectedCallBack
+		(local $is_last_level i32)
+		
+		get_global $first_card_value
+		get_global $second_card_value
+		i32.eq
+		if
+			get_global $first_card_row
+			get_global $first_card_column
+			get_global $second_card_row
+			get_global $second_card_column
+			call $RemoveCards
+
+			get_global $matches_remaining
+			i32.const 1
+			i32.sub
+			set_global $matches_remaining
+		else
+			get_global $first_card_row
+			get_global $first_card_column
+			i32.const -1
+			call $FlipCard
+			
+			get_global $second_card_row
+			get_global $second_card_column
+			i32.const -1
+			call $FlipCard
+		end
+
+		call $ResetSelectedCardValues
+
+		i32.const 0
+		set_global $excution_paused
+
+		get_global $matches_remaining
+		i32.const 0
+		i32.eq
+		if
+			get_global $cards
+			call $free
+
+			get_global $current_level
+			get_global $MAX_LEVEL
+			i32.lt_s
+			set_local $is_last_level
+
+			get_global $current_level
+			get_local $is_last_level
+			call $LevelComplete
+		end
+	)
+
+	(func $ReplayLevel
+		get_global $current_level
+		call $PlayLevel
+	)
+
+	(func $PlayNextLevel
+		get_global $current_level
+		i32.const 1
+		i32.add
+		call $PlayLevel
+	)
+
+	(func $main
+		i32.const 1
+		call $PlayLevel
 	)
 
  )
