@@ -119,5 +119,194 @@
 		call $ShuffleArray
 	)
 
+	(func $PopulateArray (param $array_length i32) (local $index i32) (local $card_value i32)
+		
+		i32.const 0
+		set_local $index
+
+		i32.const 0
+		set_local $index
+
+		loop $while-populate
+			get_local $index
+			call $GetMemoryLocationFromIndex
+			get_local $card_value
+			i32.store
+
+			get_local $index
+			i32.const 1
+			i32.add
+			set_local $index
+
+			get_local $index
+			call $GetMemoryLocationFromIndex
+			get_local $card_value
+			i32.store
+
+			get_local $card_value
+			i32.const 1
+			i32.add
+			set_local $card_value
+
+			get_local $index
+			i32.const 1
+			i32.add
+			set_local $index
+
+			get_local $index
+			get_local $array_length
+			i32.lt_s
+			if
+				br $while-populate
+			end
+		end $while-populate
+	)
+
+	(func $GetMemoryLocationFromIndex (param $index i32) (result i32)
+		get_local $index
+		i32.const 2
+		i32.shl
+
+		get_global $cards
+		i32.add
+	)
+
+	(func $ShuffleArray (param $array_length i32)
+		(local $index i32)
+		(local $memory_location1 i32)
+		(local $memory_location2 i32)
+		(local $card_to_swap i32)
+		(local $card_value i32)
+
+		call $SeedRandomNumberGenerator
+
+		get_local $array_length
+		i32.const 1
+		i32.sub
+		set_local $index
+
+		loop $while-shuffle
+			get_local $index
+			i32.const 1
+			i32.add
+			call $GetRandomNumber
+			set_local $card_to_swap
+
+			get_local $index
+			call $GetMemoryLocationFromIndex
+			set_local $memory_location1
+
+			get_local $card_to_swap
+			call $GetMemoryLocationFromIndex
+			set_local $memory_location2
+
+			get_local $memory_location1
+			i32.load
+			set_local $card-value
+
+			get_local $memory_location1
+			get_local $memory_location2
+			i32.load
+			i32.store
+			
+			get_local $memory_location2
+			get_local $card-value
+			i32.store
+
+			get_local $index
+			i32.const 1
+			i32.sub
+			set_local $index
+
+			get_local $index
+			i32.const 0
+			i32.gt_s
+			if
+				br $while-shuffle
+			end
+		end $while-shuffle
+	)
+
+	(func $PlayLevel (param $level i32)
+		get_local $level
+		call $InitialzeCards
+		get-global $rows
+
+		get_global $columns
+		get_local $level
+		call $GenerateCards
+	)
+
+	(func $GetCardValue (param $row i32) (param $column i32) (result i32)
+		get_local $row
+		get_global $columns
+		i32.mul
+		get_local $column
+		i32.add
+
+		i32.const 2
+		i32 shl
+		get_global $cards
+		i32.add
+		i32.load
+	)
+
+	(func $CardSelected (param $row i32) (param $column i32)
+		(local $card_value i32)
+
+		get_global $excution_paused
+		i32.const 1
+		i32.eq
+		if
+			return
+		end
+
+		get_local $row
+		get_local $column
+		call $GetCardValue
+		set_local $card_value
+
+		get_global $row
+		get_local $column
+		get_local $card_value
+		call $FlipCard
+
+		get_global $first_card_row
+		i32.const -1
+		i32.eq
+		if
+			get_local $row
+			set_global $first_card_row
+			get_local $column
+			set_global $first_card_column
+
+			get_local $card_value
+			set_global $first_card_value
+		else
+			get_local $row
+			get_local $column
+			call $IsFirstCard
+			if
+				return
+			end
+			
+			get_local $row
+			set_global $second_card_row
+
+			get_local $column
+			set_global $second_card_column
+
+			get_local $card_value
+			set_global $second_card_value
+
+			i32.const 1
+			set_global $excution_paused
+
+			i32.const 1024
+			i32.const 600
+
+			call $Pause
+			end
+	)
 
  )
