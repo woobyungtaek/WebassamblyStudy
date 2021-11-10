@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wasm Match</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="game.css" />
+
+</head>
+<body>
+
+    <div class="root-container">
+        <header class="container-fluid">
+            <h1>Wasm Match</h1>
+            <h3 id="currentLevel">Level 1</h3>
+        </header>
+        
+        <div id="cardContainer" class="container-fluid"></div>
+
+        <div id="levelComplete" class="container-fluid summary" style="display:none;">
+            <h1>Congratulation!</h1>
+            <h3 id="levelSummary"></h3>
+
+            <button class="btn btn-primary" onclick="replayLevel();">Replay</button>
+            <button class="btn btn-primary" id="playNextLevel" onclick="playNextLevel();">Next Level</button>
+        </div>
+
+    </div>
+
+    <script src="game.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

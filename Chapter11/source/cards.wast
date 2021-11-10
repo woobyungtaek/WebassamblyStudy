@@ -47,8 +47,6 @@
 
 	(start $main)
 	
-	(data (i32.const 1024) "SecondCardSelectedCallback")
-
 	(func $InitializeRowsAndColumns (param $level i32)
 		get_local $level
 		i32.const 1
@@ -410,5 +408,7 @@
 		i32.const 1
 		call $PlayLevel
 	)
+	
+	(data (i32.const 1024) "SecondCardSelectedCallback")
 
  )
