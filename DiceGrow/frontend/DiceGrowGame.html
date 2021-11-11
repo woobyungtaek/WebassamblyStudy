@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>주사위 키우기</title>
+    <meta charset="ansi" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body onload="initializePage()">
+    <div class="container">
+
+        <!-- 로그인 form -->
+        <div class="border" id="LoginForm" style="display:none;">
+            <h1 class="display-3">주사위 키우기 ver.0.0.1</h1>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text w-25" id="id-input-label">ID</span>
+                <input type="text" class="form-control" placeholder="ID" aria-label="ID" aria-describedby="id-input-label" />
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text w-25" id="pass-input-label">Password</span>
+                <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="pass-input-label" />
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-primary" onclick="OnClicked_LoginButton()">
+                    로그인 하기
+                </button>
+                <button type="button" class="btn btn-outline-secondary"onclick="OnClicked_SignUpButton()">
+                    회원가입 하기
+                </button>
+            </div>
+            <div class="text">ㅤ</div>
+        </div>
+
+        <!-- 회원 가입 form -->
+        <div class="border" id="SignUpForm" style="display:none;">
+            <h1 class="display-3">회원 가입</h1>
+            <div class="input-group mb-3">
+                <span class="input-group-text w-25" id="ID-input-label">ID</span>
+                <input type="text" class="form-control" placeholder="ID" aria-label="ID" aria-describedby="id-input-label" />
+                <button class="btn btn-outline-secondary" type="button" id="button-Duplicate-Check">중복확인</button>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text w-25" id="pass1-input-label">Password</span>
+                <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="pass-input-label" />
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text w-25" id="pass2-input-label">Password Confirm</span>
+                <input type="text" class="form-control" placeholder="Password Confirm" aria-label="Password" aria-describedby="pass-input-label" />
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-primary">가입하기</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="OnClicked_BackButton()">
+                돌아가기</button>
+            </div>
+            <div class="text">ㅤ</div>
+        </div>
+
+        <!-- 플레이어 정보 form-->
+        <div class="border" id="PlayerStateForm" style="display:none;">
+            <h1 class="display-3 ">플레이어 정보</h1>
+
+            <!-- 플레이어 정보 1-->
+            <div class="row mb-2">
+                <!-- Hp 표시 및 증가 버튼-->
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">HP</span>
+                    <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
+                    <button class="btn btn-outline-secondary" type="button" id="button-Duplicate-Check">+</button>
+                </div>
+
+                <!-- LV 정보-->
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">Lv.</span>
+                    <span class="input-group-text " id="HP-Value-input-label">999</span>
+                </div>
+            </div>
+
+            <!-- 플레이어 정보 2-->
+            <div class="row mb-2">
+                <!-- 남은 레벨 포인트-->
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">Point</span>
+                    <span class="input-group-text " id="HP-Value-input-label">0</span>
+                </div>
+                <!-- 경험치 정보 -->
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">Exp.</span>
+                    <span class="input-group-text " id="HP-Value-input-label">[99999/99999]</span>
+                </div>
+
+            </div>
+
+            <!-- 주사위 슬롯들 -->
+            <label for="formDice" class="form-label mb-0">주사위</label>
+            <div class="border mb-5" id="DiceSlotForm">
+                <div class="row gap-1">
+                    <div class="d-grid gap-1 col ">
+                        <label for="formDiceSlot" class="form-label">1</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">2</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">3</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">4</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">5</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">6</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-3">
+                <button class="btn btn-outline-primary btn-lg" type="button" onclick="OnClicked_GoButton()">
+                진행하기
+                </button>
+
+                <button class="btn btn-outline-primary" type="button" onclick="OnClicked_SaveAndExitButton()">
+                저장 후 나가기 (item 필요)
+                </button>
+            </div>
+
+            <div class="text">ㅤ</div>
+        </div>
+
+        <!-- 이벤트 발생 form-->
+        <!-- 주사위 굴리기 form-->
+        <div class="border" id="RollDiceForm" style="display:none;">
+            <h1 class="display-3 ">주사위 굴리기</h1>
+
+            <div class="d-grid gap-1">
+                <button class="btn btn-outline-primary btn-lg" type="button" onclick="OnClicked_RollDiceButton()">
+                주사위 굴리기
+                </button>
+            </div>
+
+            <div class="text">ㅤ</div>
+        </div>
+
+        <!-- 전투 준비 form-->
+        <div class="border" id="BattleReadyForm" style="display:none;">
+            <h1 class="display-3 ">전투 준비</h1>
+            <!-- 플레이어 체력 & 남은 주사위 포인트 -->
+            <label for="formDice" class="form-label mb-0">플레이어 정보</label>
+            <div class="row mb-2">
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">Player HP</span>
+                    <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
+                </div>
+
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">Dice Point</span>
+                    <span class="input-group-text " id="HP-Value-input-label">999</span>
+                </div>
+            </div>
+
+            <!-- 적 체력 & 상대의 주사위 정보 -->
+            <label for="formDice" class="form-label mb-0">적 정보</label>
+            <div class="row mb-2">
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">Enemy HP</span>
+                    <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
+                </div>
+
+                <div class="input-group mb-1 col">
+                    <span class="input-group-text input-group-sm" id="HP-input-label">Enemy Dice</span>
+                    <span class="input-group-text " id="HP-Value-input-label">999/ 999/ 999/ 999/ 999/ 999</span>
+                </div>
+            </div>
+
+            <!-- 상대 공격력 감소 Slot -->
+            <label for="formDice" class="form-label mb-0">적 공격력 감소</label>
+            <div class="border mb-1" id="DiceSlotForm">
+                <div class="row gap-1">
+                    <div class="d-grid gap-1 col ">
+                        <label for="formDiceSlot" class="form-label">1</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">2</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">3</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">4</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="btn-group-vertical col">
+                        <button class="btn btn-outline-primary" type="button">균등 분배</button>
+                        <button class="btn btn-outline-danger" type="button">모두 취소</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 내 공격력 Slot -->
+            <label for="formDice" class="form-label mb-0">공격력</label>
+            <div class="border mb-5" id="DiceSlotForm">
+                <div class="row gap-1">
+                    <div class="d-grid gap-1 col ">
+                        <label for="formDiceSlot" class="form-label">1</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">2</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">3</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-1 col">
+                        <label for="formDiceSlot" class="form-label">4</label>
+                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-outline-danger">-</button>
+                            <button type="button" class="btn btn-outline-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="btn-group-vertical col">
+                        <button class="btn btn-outline-primary" type="button">균등 분배</button>
+                        <button class="btn btn-outline-danger" type="button">모두 취소</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 전투 시작 버튼 -->
+            <div class="d-grid gap-3">
+                <button class="btn btn-outline-primary btn-lg" type="button" onclick="OnClicked_BattleStartButton()">전투 시작</button>
+            </div>
+
+            <div class="text">ㅤ</div>
+        </div>
+
+        <!-- 전투 form-->
+        <div class="border" id="BattleForm" style="display:none;">
+            <h1 class="display-3 ">전투</h1>
+
+            <!-- 적 체력 정보-->
+            <label for="formDice" class="form-label mb-0">적 정보</label>
+            <div class="input-group mb-1">
+                <span class="input-group-text input-group-sm" id="HP-input-label">Lv.</span>
+                <span class="input-group-text " id="HP-Value-input-label">999</span>
+                <span class="input-group-text input-group-sm" id="HP-input-label">HP</span>
+                <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
+            </div>
+
+            <!-- 턴 정보 -->
+            <div class="row mb-1">
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control">999</div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control">999</div>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control">999</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control">999</div>
+                </div>
+            </div>
+
+            <!-- 플레이어 체력 정보-->
+            <label for="formDice" class="form-label mb-0 ">플레이어 정보</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text input-group-sm" id="HP-input-label">Lv.</span>
+                <span class="input-group-text " id="HP-Value-input-label">999</span>
+                <span class="input-group-text input-group-sm" id="HP-input-label">HP</span>
+                <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
+            </div>
+
+            <!-- 턴 진행 버튼 -->
+            <!-- 라운드 진행 버튼-->
+            <!-- 전투 종료 버튼-->
+            <div class="d-grid gap-1">
+                <button class="btn btn-outline-primary btn-lg" type="button" id="NextTurnBtn" onclick="OnClicked_NextTurnButton()">다음 턴</button>
+                <button class="btn btn-outline-primary btn-lg" type="button" id="NextRoundBtn" onclick="OnClicked_NextRoundButton()">다음 라운드</button>
+                <button class="btn btn-outline-primary btn-lg" type="button" id="BattleEndBtn" onclick="OnClicked_BattleEndButton()">전투 종료</button>
+            </div>
+
+            <div class="text">ㅤ</div>
+        </div>
+
+    </div>
+
+    <script src="DiceGrowGame.js"></script>
+</body>
+
+</html>
