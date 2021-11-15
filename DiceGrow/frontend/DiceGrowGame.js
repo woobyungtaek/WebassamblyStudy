@@ -62,8 +62,17 @@ function OnClicked_BackButton() {
 
 
 //-------------------------
-//     회원 가입 Form
+//   플레이어 정보 Form
 //-------------------------
+
+// HP 갱신
+function RefreshHpUI() {
+}
+
+// 주사위 갱신
+function RefreshDiceSlotUI(slotNum) {
+
+}
 
 // 진행하기 버튼
 function OnClicked_GoButton() {
@@ -82,6 +91,7 @@ function OnClicked_SaveAndExitButton() {
 //-------------------------
 //     주사위 굴리기 Form
 //-------------------------
+
 // 주사위 굴리기 버튼
 function OnClicked_RollDiceButton() {
     AllFormNoShow();
@@ -92,6 +102,7 @@ function OnClicked_RollDiceButton() {
 //-------------------------
 //     전투 준비 Form
 //-------------------------
+
 // 전투 시작 버튼 
 function OnClicked_BattleStartButton() {
     currentTurn = 0;
