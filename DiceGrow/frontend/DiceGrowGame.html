@@ -29,7 +29,7 @@
                 <button type="button" class="btn btn-outline-primary" onclick="OnClicked_LoginButton()">
                     로그인 하기
                 </button>
-                <button type="button" class="btn btn-outline-secondary"onclick="OnClicked_SignUpButton()">
+                <button type="button" class="btn btn-outline-secondary" onclick="OnClicked_SignUpButton()">
                     회원가입 하기
                 </button>
             </div>
@@ -55,7 +55,8 @@
             <div class="d-grid gap-2">
                 <button type="button" class="btn btn-outline-primary">가입하기</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="OnClicked_BackButton()">
-                돌아가기</button>
+                    돌아가기
+                </button>
             </div>
             <div class="text">ㅤ</div>
         </div>
@@ -68,15 +69,15 @@
             <div class="row mb-2">
                 <!-- Hp 표시 및 증가 버튼-->
                 <div class="input-group mb-1 col">
-                    <span class="input-group-text input-group-sm" id="HP-input-label">HP</span>
-                    <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
-                    <button class="btn btn-outline-secondary" type="button" id="button-Duplicate-Check">+</button>
+                    <span class="input-group-text input-group-sm" id="label-hp-text">HP</span>
+                    <span class="input-group-text " id="label-hp-value-text">[999/999]</span>
+                    <button class="btn btn-outline-secondary" type="button" id="button-maxhp-increase" onclick="OnClicked_MaxHPIncreaseButton()">+</button>
                 </div>
 
                 <!-- LV 정보-->
                 <div class="input-group mb-1 col">
-                    <span class="input-group-text input-group-sm" id="HP-input-label">Lv.</span>
-                    <span class="input-group-text " id="HP-Value-input-label">999</span>
+                    <span class="input-group-text input-group-sm" id="label-level-text">Lv.</span>
+                    <span class="input-group-text " id="label-level-value-text">999</span>
                 </div>
             </div>
 
@@ -84,13 +85,13 @@
             <div class="row mb-2">
                 <!-- 남은 레벨 포인트-->
                 <div class="input-group mb-1 col">
-                    <span class="input-group-text input-group-sm" id="HP-input-label">Point</span>
-                    <span class="input-group-text " id="HP-Value-input-label">0</span>
+                    <span class="input-group-text input-group-sm" id="label-levelpoint-text">Point</span>
+                    <span class="input-group-text " id="label-levelpoint-value-text">0</span>
                 </div>
                 <!-- 경험치 정보 -->
                 <div class="input-group mb-1 col">
-                    <span class="input-group-text input-group-sm" id="HP-input-label">Exp.</span>
-                    <span class="input-group-text " id="HP-Value-input-label">[99999/99999]</span>
+                    <span class="input-group-text input-group-sm" id="label-exp-text">Exp.</span>
+                    <span class="input-group-text " id="label-exp-value-text">[99999/99999]</span>
                 </div>
 
             </div>
@@ -101,44 +102,44 @@
                 <div class="row gap-1">
                     <div class="d-grid gap-1 col ">
                         <label for="formDiceSlot" class="form-label">1</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
-                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                        <div class="text-center border border-primary" typeof="form-control" id="text-dice-value-0">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-dice-increase-0" onclick="OnClicked_DiceValueIncreaseButton(0)">+</button>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">2</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
-                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                        <div class="text-center border border-primary" typeof="form-control" id="text-dice-value-1">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-dice-increase-1" onclick="OnClicked_DiceValueIncreaseButton(1)">+</button>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">3</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
-                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                        <div class="text-center border border-primary" typeof="form-control" id="text-dice-value-2">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-dice-increase-2" onclick="OnClicked_DiceValueIncreaseButton(2)">+</button>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">4</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
-                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                        <div class="text-center border border-primary" typeof="form-control" id="text-dice-value-3">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-dice-increase-3" onclick="OnClicked_DiceValueIncreaseButton(3)">+</button>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">5</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
-                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                        <div class="text-center border border-primary" typeof="form-control" id="text-dice-value-4">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-dice-increase-4" onclick="OnClicked_DiceValueIncreaseButton(4)">+</button>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">6</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
-                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-Duplicate-Check">+</button>
+                        <div class="text-center border border-primary" typeof="form-control"id="text-dice-value-5">999</div>
+                        <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-dice-increase-5" onclick="OnClicked_DiceValueIncreaseButton(5)">+</button>
                     </div>
                 </div>
             </div>
 
             <div class="d-grid gap-3">
                 <button class="btn btn-outline-primary btn-lg" type="button" onclick="OnClicked_GoButton()">
-                진행하기
+                    진행하기
                 </button>
 
                 <button class="btn btn-outline-primary" type="button" onclick="OnClicked_SaveAndExitButton()">
-                저장 후 나가기 (item 필요)
+                    저장 후 나가기 (item 필요)
                 </button>
             </div>
 
@@ -152,7 +153,7 @@
 
             <div class="d-grid gap-1">
                 <button class="btn btn-outline-primary btn-lg" type="button" onclick="OnClicked_RollDiceButton()">
-                주사위 굴리기
+                    주사위 굴리기
                 </button>
             </div>
 
@@ -351,7 +352,9 @@
     <!-- 주사위 키우기 게임 js -->
     <script src="DiceGrowGame.js"></script>
     <!-- 메인 모듈 -->
+    <script src="DiceGrow_Core.js"></script>
     <!-- Form별 모듈 js -->
+
 </body>
 
 </html>
