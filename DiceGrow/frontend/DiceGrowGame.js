@@ -184,8 +184,10 @@ function OnClicked_SaveAndExitButton() {
 
 // 주사위 굴리기 버튼
 function OnClicked_RollDiceButton() {
-    // 랜덤 주사위 값 추출 후 획득
 
+    // 랜덤 주사위 값 추출 후 획득
+    var point = coreModule._Get_Random_Dice_Point();
+    console.log(point);
     AllFormNoShow();
     showElement("BattleReadyForm", true);
 }

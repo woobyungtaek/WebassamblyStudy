@@ -1,6 +1,10 @@
 #include <cstdlib>
 #include <iostream>
+#include <chrono>
+#include <random>
+
 #include <emscripten.h>
+
 #include "Character.h"
 
 #ifdef __cplusplus
@@ -9,14 +13,18 @@ extern "C"
 #endif // __cplusplus
 
 	// 코어의 함수들이 사이드 모듈의 extern으로 선언되어있어야 한다.
+	// 코어의 캐릭터 객체들이.. 사이드 모듈의 extern으로 사용이 가능한가? 확인필요
 
 	// 플레이어, 적 객체 선언
 	Character* player;
 	Character* enemy;
 
+
 	// 플레이어, 적 객체 생성 및 초기화
 	int EMSCRIPTEN_KEEPALIVE Init()
 	{
+		srand(time(NULL));
+
 		if (player == nullptr)
 		{
 			player = new Character();
@@ -92,6 +100,16 @@ extern "C"
 		if (player == nullptr) { return; }
 		if (slot < 0 || slot >= 6) { return; }
 		player->IncreaseDiceValue(slot);
+	}
+#pragma endregion
+
+#pragma region 주사위 굴리기
+
+	int EMSCRIPTEN_KEEPALIVE Get_Random_Dice_Point()
+	{
+		// 0~5 슬롯 중 하나 선택
+		//int slot = rand() % 6;
+		return rand() % 6;
 	}
 
 #pragma endregion

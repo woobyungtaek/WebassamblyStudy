@@ -1738,7 +1738,7 @@ var ASM_CONSTS = {
       }
     }
   
-  var ___heap_base = 5244432;
+  var ___heap_base = 5244448;
   Module["___heap_base"] = ___heap_base;
   function getMemory(size) {
       // After the runtime is initialized, we must only use sbrk() normally.
@@ -2150,7 +2150,7 @@ var ASM_CONSTS = {
 
   var ___memory_base = new WebAssembly.Global({'value': 'i32', 'mutable': false}, 1024);
 
-  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5244432);
+  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5244448);
 
   var ___table_base = new WebAssembly.Global({'value': 'i32', 'mutable': false}, 1);
 
@@ -2167,6 +2167,16 @@ var ASM_CONSTS = {
       requestedSize = requestedSize >>> 0;
       abortOnCannotGrowMemory(requestedSize);
     }
+
+  function _time(ptr) {
+      ;
+      var ret = (Date.now()/1000)|0;
+      if (ptr) {
+        HEAP32[((ptr)>>2)] = ret;
+      }
+      return ret;
+    }
+  _time.sig = 'ii';
 var ASSERTIONS = false;
 
 
@@ -2204,7 +2214,8 @@ var asmLibraryArg = {
   "__table_base": ___table_base,
   "abort": _abort,
   "emscripten_resize_heap": _emscripten_resize_heap,
-  "memory": wasmMemory
+  "memory": wasmMemory,
+  "time": _time
 };
 var asm = createWasm();
 /** @type {function(...*):?} */
@@ -2263,6 +2274,11 @@ var _IncreaseDiceValue = Module["_IncreaseDiceValue"] = function() {
 };
 
 /** @type {function(...*):?} */
+var _Get_Random_Dice_Point = Module["_Get_Random_Dice_Point"] = function() {
+  return (_Get_Random_Dice_Point = Module["_Get_Random_Dice_Point"] = Module["asm"]["Get_Random_Dice_Point"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = function() {
   return (___errno_location = Module["___errno_location"] = Module["asm"]["__errno_location"]).apply(null, arguments);
 };
@@ -2297,17 +2313,16 @@ var _free = Module["_free"] = function() {
   return (_free = Module["_free"] = Module["asm"]["free"]).apply(null, arguments);
 };
 
-var _player = Module['_player'] = 1028;
-var _enemy = Module['_enemy'] = 1032;
-var ___THREW__ = Module['___THREW__'] = 1540;
-var ___threwValue = Module['___threwValue'] = 1544;
-var ___cxa_new_handler = Module['___cxa_new_handler'] = 1036;
+var _player = Module['_player'] = 1032;
+var _enemy = Module['_enemy'] = 1036;
+var ___THREW__ = Module['___THREW__'] = 1552;
+var ___threwValue = Module['___threwValue'] = 1556;
+var ___cxa_new_handler = Module['___cxa_new_handler'] = 1048;
 
 
 
 // === Auto-generated postamble setup entry stuff ===
 
-Module["ccall"] = ccall;
 Module["allocate"] = allocate;
 
 var calledRun;
