@@ -1,6 +1,6 @@
 #include "Character.h"
 
-Character::Character() : mHP(0), mMaxHP(0), mLevel(0), mExp(0), mMaxExp(0), mLevelPoint(0)
+Character::Character() : mHP(0), mMaxHP(0), mLevel(0), mExp(0), mMaxExp(0), mLevelPoint(0), mDicePoint(0)
 {
 
 }
@@ -26,6 +26,8 @@ void Character::Init()
 	{
 		mDice[cnt] = 0;
 	}
+
+	mDicePoint = 0;
 }
 
 #pragma region Get함수
@@ -37,10 +39,11 @@ int Character::GetExp()				{ return mExp; }
 int Character::GetMaxExp()			{ return mMaxExp; }
 int Character::GetLevelPoint()		{ return mLevelPoint; }
 int Character::GetDice(int slot)	{ return mDice[slot]; }
+int Character::GetDicePoint()		{ return mDicePoint; }
 
 #pragma endregion
 
-#pragma region 포인트 투자 함수
+#pragma region  레벨 업 포인트
 
 void Character::IncreaseMaxHP()
 {
@@ -48,6 +51,7 @@ void Character::IncreaseMaxHP()
 	mLevelPoint -= 1;
 
 	mMaxHP += 1;
+	mHP = mMaxHP;
 
 	return;
 }
@@ -63,5 +67,23 @@ void Character::IncreaseDiceValue(int slot)
 }
 
 #pragma endregion
+
+#pragma region  주사위 포인트
+
+void Character::SetDicePoint(int slot)
+{
+	mDicePoint = mDice[slot];
+	mMaxPoint = mDicePoint;
+}
+
+void Character::UseDicePoint(int value)
+{
+	mDicePoint += value;
+	if (mDicePoint > mMaxPoint) { mDicePoint = mMaxPoint; }
+	else if (mDicePoint < 0) { mDicePoint = 0; }
+}
+
+#pragma endregion
+
 
 

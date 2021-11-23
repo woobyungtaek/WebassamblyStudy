@@ -19,6 +19,12 @@ extern "C"
 	Character* player;
 	Character* enemy;
 
+	std::mt19937 gen(time(NULL));
+	std::uniform_int_distribution<int> dist(0, 5);
+
+	// 적 공격력 감소, 공격력 배열, 포인트 투자 한 값이 들어간다.
+	int decArr[4];
+	int attackArr[4];
 
 	// 플레이어, 적 객체 생성 및 초기화
 	int EMSCRIPTEN_KEEPALIVE Init()
@@ -88,6 +94,11 @@ extern "C"
 		return player->GetDice(slot);
 	}
 
+	int EMSCRIPTEN_KEEPALIVE Get_Player_DicePoint()
+	{
+		if (player == nullptr) { return -1; }
+		return player->GetDicePoint();
+	}
 
 	// 최대체력 증가
 	void EMSCRIPTEN_KEEPALIVE IncreaseMaxHP() {
@@ -101,15 +112,80 @@ extern "C"
 		if (slot < 0 || slot >= 6) { return; }
 		player->IncreaseDiceValue(slot);
 	}
+
 #pragma endregion
 
 #pragma region 주사위 굴리기
 
+	// 랜덤 숫자 뽑기, 서버에서 해야할 일
 	int EMSCRIPTEN_KEEPALIVE Get_Random_Dice_Point()
 	{
-		// 0~5 슬롯 중 하나 선택
-		//int slot = rand() % 6;
-		return rand() % 6;
+		if (player == nullptr) { return 0; }
+		int slot = dist(gen);
+		player->SetDicePoint(slot);
+		return player->GetDice(slot);
+	}
+
+#pragma endregion
+
+
+#pragma region 전투 준비
+
+
+	void EMSCRIPTEN_KEEPALIVE InitBattleArr()
+	{
+		for (int index = 0; index < 4; ++index)
+		{
+			decArr[index] = 0;
+			attackArr[index] = 0;
+		}
+	}
+
+	int EMSCRIPTEN_KEEPALIVE Get_Dec_Point(int slot)
+	{
+		// 2배수 적용
+		return decArr[slot] * 2;
+	}
+	
+	int EMSCRIPTEN_KEEPALIVE Get_Attack_Point(int slot)
+	{
+		return attackArr[slot];
+	}	
+
+	void UseDicePoint(int value)
+	{
+		if (player == nullptr) { return; }
+
+		player->UseDicePoint(value);
+	}
+
+	// 고려사항 Dice포인트가 남아있나.
+	// 해당 슬롯에서 제거할 포인트가 남아있나. 
+	void EMSCRIPTEN_KEEPALIVE SetEnemyAttackDecPoint(int slot, bool isInc)
+	{
+		if (isInc == true) 
+		{
+			decArr[slot] += 1;
+			UseDicePoint(-1);
+		}
+		else
+		{
+			decArr[slot] -= 1;
+			UseDicePoint(1);
+		}	
+	}
+	void EMSCRIPTEN_KEEPALIVE SetPlayerAttackPoint(int slot, bool isInc)
+	{
+		if (isInc == true)
+		{
+			attackArr[slot] += 1;
+			UseDicePoint(-1);
+		}
+		else
+		{
+			attackArr[slot] -= 1;
+			UseDicePoint(1);
+		}
 	}
 
 #pragma endregion

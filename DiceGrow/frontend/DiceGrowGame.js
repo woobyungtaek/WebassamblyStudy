@@ -102,7 +102,7 @@ function OnClicked_BackButton() {
 function RefreshPlayerStateUI() {
     OnOffPlusButtons();
 
-    RefreshHPUI();
+    RefreshHPUI("label-hp-value-text");
 
     var lv = coreModule._Get_Player_Level();
     changeSpanText("label-level-value-text", format('{0}', lv));
@@ -115,10 +115,10 @@ function RefreshPlayerStateUI() {
 }
 
 // HP 갱신
-function RefreshHPUI() {
+function RefreshHPUI(ui_key) {
     var hp = coreModule._Get_Player_HP();
     var max_hp = coreModule._Get_Player_MaxHP();
-    changeSpanText("label-hp-value-text", format('[{0}/{1}]', hp, max_hp));
+    changeSpanText(ui_key, format('[{0}/{1}]', hp, max_hp));
 }
 
 // 주사위 갱신
@@ -154,7 +154,7 @@ function OnOffPlusButtons() {
 // MaxHP 증가 버튼
 function OnClicked_MaxHPIncreaseButton() {
     coreModule._IncreaseMaxHP();
-    RefreshHPUI();
+    RefreshHPUI("label-hp-value-text");
     OnOffPlusButtons();
 }
 // 주사위 값 증가 버튼
@@ -184,11 +184,13 @@ function OnClicked_SaveAndExitButton() {
 
 // 주사위 굴리기 버튼
 function OnClicked_RollDiceButton() {
-
     // 랜덤 주사위 값 추출 후 획득
     var point = coreModule._Get_Random_Dice_Point();
     console.log(point);
     AllFormNoShow();
+
+    // 전투 준비 UI 갱신
+    RefreshBattleReadyUI();
     showElement("BattleReadyForm", true);
 }
 
@@ -196,6 +198,48 @@ function OnClicked_RollDiceButton() {
 //-------------------------
 //     전투 준비 Form
 //-------------------------
+
+function RefreshBattleReadyUI() {
+
+    // 배틀 준비 상태 초기화
+    coreModule._InitBattleArr();
+
+    // HP 갱신
+    RefreshHPUI("HP-value-label-player");
+
+    // 주사위 포인트 갱신
+    RefreshDicePointUI();
+
+    // 감소, 공격력 포인트 갱신
+    RefreshAttackPointUI();
+}
+
+function RefreshDicePointUI() {
+    var dp = coreModule._Get_Player_DicePoint();
+    changeSpanText("DP-value-label-player", format('{0}', dp));
+}
+
+function RefreshAttackPointUI() {
+    for (var index = 0; index < 4; ++index) {
+        changeSpanText(format('Attack-dec-enemy-{0}', index + 1), format('{0}', coreModule._Get_Dec_Point(index)));
+        changeSpanText(format('Attack-player-{0}', index + 1), format('{0}', coreModule._Get_Attack_Point(index)));
+    }
+}
+
+// 슬롯별 버튼
+function OnClicked_EnemyAttackDec(slot, isInc) {
+    coreModule._SetEnemyAttackDecPoint(slot - 1, isInc);
+
+    RefreshDicePointUI();
+    RefreshAttackPointUI();
+}
+
+function OnClicked_PlayerAttack(slot, isIncrease) {
+    coreModule._SetPlayerAttackPoint(slot - 1, isInc);
+
+    RefreshDicePointUI();
+    RefreshAttackPointUI();
+}
 
 // 전투 시작 버튼 
 function OnClicked_BattleStartButton() {

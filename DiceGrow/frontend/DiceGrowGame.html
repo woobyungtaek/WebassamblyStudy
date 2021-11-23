@@ -168,12 +168,12 @@
             <div class="row mb-2">
                 <div class="input-group mb-1 col">
                     <span class="input-group-text input-group-sm" id="HP-input-label">Player HP</span>
-                    <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
+                    <span class="input-group-text " id="HP-value-label-player">[999/999]</span>
                 </div>
 
                 <div class="input-group mb-1 col">
                     <span class="input-group-text input-group-sm" id="HP-input-label">Dice Point</span>
-                    <span class="input-group-text " id="HP-Value-input-label">999</span>
+                    <span class="input-group-text " id="DP-value-label-player">999</span>
                 </div>
             </div>
 
@@ -197,7 +197,7 @@
                 <div class="row gap-1">
                     <div class="d-grid gap-1 col ">
                         <label for="formDiceSlot" class="form-label">1</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-1">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
@@ -205,7 +205,7 @@
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">2</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-2">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
@@ -213,7 +213,7 @@
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">3</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-3">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
@@ -221,16 +221,18 @@
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">4</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-4">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
                         </div>
                     </div>
+                    <!--                        
                     <div class="btn-group-vertical col">
                         <button class="btn btn-outline-primary" type="button">균등 분배</button>
                         <button class="btn btn-outline-danger" type="button">모두 취소</button>
                     </div>
+                    -->
                 </div>
             </div>
 
@@ -240,7 +242,7 @@
                 <div class="row gap-1">
                     <div class="d-grid gap-1 col ">
                         <label for="formDiceSlot" class="form-label">1</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-player-1">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
@@ -248,7 +250,7 @@
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">2</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-player-2">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
@@ -256,7 +258,7 @@
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">3</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-player-3">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
@@ -264,16 +266,18 @@
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">4</label>
-                        <div class="text-center border border-primary" typeof="form-control">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="Attack-player-4">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-outline-danger">-</button>
                             <button type="button" class="btn btn-outline-primary">+</button>
                         </div>
                     </div>
+                    <!--                        
                     <div class="btn-group-vertical col">
                         <button class="btn btn-outline-primary" type="button">균등 분배</button>
                         <button class="btn btn-outline-danger" type="button">모두 취소</button>
                     </div>
+                    -->
                 </div>
             </div>
 
@@ -350,7 +354,7 @@
     </div>
 
     <!-- 주사위 키우기 게임 js -->
-    <script src="DiceGrowGame.js?ver1"></script>
+    <script src="DiceGrowGame.js"></script>
     <!-- 메인 모듈 -->
     <script src="DiceGrow_Core.js"></script>
     <!-- Form별 모듈 js -->
