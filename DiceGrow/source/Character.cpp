@@ -38,8 +38,22 @@ int Character::GetLevel()			{ return mLevel; }
 int Character::GetExp()				{ return mExp; }
 int Character::GetMaxExp()			{ return mMaxExp; }
 int Character::GetLevelPoint()		{ return mLevelPoint; }
-int Character::GetDice(int slot)	{ return mDice[slot]; }
+int Character::GetDice(int slot)	
+{
+	if (slot < 0 || slot >= 6) { return 0; }
+	return mDice[slot]; 
+}
 int Character::GetDicePoint()		{ return mDicePoint; }
+int Character::GetDecValue(int slot)
+{
+	if (slot < 0 || slot >= 4) { return 0; }
+	return mDecArr[slot] * 2;
+}
+int Character::GetAttackValue(int slot)
+{
+	if (slot < 0 || slot >= 4) { return 0; }
+	return mAttackArr[slot];
+}
 
 #pragma endregion
 
@@ -81,6 +95,27 @@ void Character::UseDicePoint(int value)
 	mDicePoint += value;
 	if (mDicePoint > mMaxPoint) { mDicePoint = mMaxPoint; }
 	else if (mDicePoint < 0) { mDicePoint = 0; }
+}
+
+void Character::ResetBattleArr()
+{
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		mDecArr[idx] = 0;
+		mAttackArr[idx] = 0;
+	}
+}
+
+void Character::SetDecArr(int slot, int value)
+{
+	if (slot < 0 || slot >= 4) { return; }
+	mDecArr[slot] += value;
+}
+
+void Character::SetAttackArr(int slot, int value)
+{
+	if (slot < 0 || slot >= 4) { return; }
+	mAttackArr[slot] += value;
 }
 
 #pragma endregion

@@ -2284,16 +2284,6 @@ var _Get_Random_Dice_Point = Module["_Get_Random_Dice_Point"] = function() {
 };
 
 /** @type {function(...*):?} */
-var _IncreaseDicePoint = Module["_IncreaseDicePoint"] = function() {
-  return (_IncreaseDicePoint = Module["_IncreaseDicePoint"] = Module["asm"]["IncreaseDicePoint"]).apply(null, arguments);
-};
-
-/** @type {function(...*):?} */
-var _DecreaseDicePoint = Module["_DecreaseDicePoint"] = function() {
-  return (_DecreaseDicePoint = Module["_DecreaseDicePoint"] = Module["asm"]["DecreaseDicePoint"]).apply(null, arguments);
-};
-
-/** @type {function(...*):?} */
 var _InitBattleArr = Module["_InitBattleArr"] = function() {
   return (_InitBattleArr = Module["_InitBattleArr"] = Module["asm"]["InitBattleArr"]).apply(null, arguments);
 };
@@ -2306,6 +2296,16 @@ var _Get_Dec_Point = Module["_Get_Dec_Point"] = function() {
 /** @type {function(...*):?} */
 var _Get_Attack_Point = Module["_Get_Attack_Point"] = function() {
   return (_Get_Attack_Point = Module["_Get_Attack_Point"] = Module["asm"]["Get_Attack_Point"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _IncreaseSlotPoint = Module["_IncreaseSlotPoint"] = function() {
+  return (_IncreaseSlotPoint = Module["_IncreaseSlotPoint"] = Module["asm"]["IncreaseSlotPoint"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _DecreaseSlotPoint = Module["_DecreaseSlotPoint"] = function() {
+  return (_DecreaseSlotPoint = Module["_DecreaseSlotPoint"] = Module["asm"]["DecreaseSlotPoint"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */

@@ -127,7 +127,7 @@
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">6</label>
-                        <div class="text-center border border-primary" typeof="form-control"id="text-dice-value-5">999</div>
+                        <div class="text-center border border-primary" typeof="form-control" id="text-dice-value-5">999</div>
                         <button class="btn btn-outline-secondary btn-sm mb-2" type="button" id="button-dice-increase-5" onclick="OnClicked_DiceValueIncreaseButton(5)">+</button>
                     </div>
                 </div>
@@ -195,44 +195,46 @@
             <label for="formDice" class="form-label mb-0">적 공격력 감소</label>
             <div class="border mb-1" id="DiceSlotForm">
                 <div class="row gap-1">
-                    <div class="d-grid gap-1 col ">
+                    <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">1</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-1">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(0,1)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(0,1)">+</button>
                         </div>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">2</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-2">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(0,2)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(0,2)">+</button>
                         </div>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">3</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-3">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(0,3)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(0,3)">+</button>
                         </div>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">4</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-dec-enemy-4">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(0,4)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(0,4)">+</button>
                         </div>
                     </div>
-                    <!--                        
+
+                    <!--
                     <div class="btn-group-vertical col">
                         <button class="btn btn-outline-primary" type="button">균등 분배</button>
                         <button class="btn btn-outline-danger" type="button">모두 취소</button>
                     </div>
                     -->
+
                 </div>
             </div>
 
@@ -240,39 +242,39 @@
             <label for="formDice" class="form-label mb-0">공격력</label>
             <div class="border mb-5" id="DiceSlotForm">
                 <div class="row gap-1">
-                    <div class="d-grid gap-1 col ">
+                    <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">1</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-player-1">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(1,1)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(1,1)">+</button>
                         </div>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">2</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-player-2">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(1,2)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(1,2)">+</button>
                         </div>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">3</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-player-3">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(1,3)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(1,3)">+</button>
                         </div>
                     </div>
                     <div class="d-grid gap-1 col">
                         <label for="formDiceSlot" class="form-label">4</label>
                         <div class="text-center border border-primary" typeof="form-control" id="Attack-player-4">999</div>
                         <div class="btn-group mb-2" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-outline-danger">-</button>
-                            <button type="button" class="btn btn-outline-primary">+</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="OnClicked_DecreaseButton(1,4)">-</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="OnClicked_IncreaseButton(1,4)">+</button>
                         </div>
                     </div>
-                    <!--                        
+                    <!--
                     <div class="btn-group-vertical col">
                         <button class="btn btn-outline-primary" type="button">균등 분배</button>
                         <button class="btn btn-outline-danger" type="button">모두 취소</button>
@@ -295,7 +297,7 @@
 
             <!-- 적 체력 정보-->
             <label for="formDice" class="form-label mb-0">적 정보</label>
-            <div class="input-group mb-1">
+            <div class="input-group mb-3">
                 <span class="input-group-text input-group-sm" id="HP-input-label">Lv.</span>
                 <span class="input-group-text " id="HP-Value-input-label">999</span>
                 <span class="input-group-text input-group-sm" id="HP-input-label">HP</span>
@@ -303,40 +305,152 @@
             </div>
 
             <!-- 턴 정보 -->
+
+            <!-- 적 정보 -->
             <div class="row mb-1">
+                <!-- Turn 1 -->
                 <div class="col">
-                    <div class="text-center border border-primary" typeof="form-control">999</div>
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-1">999</div>
                 </div>
                 <div class="col">
-                    <div class="text-center border border-danger" typeof="form-control">999</div>
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-1">999</div>
                 </div>
+
+                <!-- Turn 2 -->
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-2">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-2">999</div>
+                </div>
+
+                <!-- Turn 3 -->
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-3">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-3">999</div>
+                </div>
+
+                <!-- Turn 4 -->
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-4">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-4">999</div>
+                </div>
+
             </div>
+
             <div class="row mb-2">
                 <div class="col">
-                    <div class="text-center border border-dark fs-2" typeof="form-control">999</div>
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-1">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-2">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-3">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-4">999</div>
                 </div>
             </div>
+
+            <!-- 결과 정보 -->
+            <div class="row mb-2">
+                <!-- Turn 1 -->
+                <div class="col">
+                    <div class="text-center border border-dark" id="Result-slot-turn-1">결과</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark" id="Damage-slot-turn-1">데미지</div>
+                </div>
+
+                <!-- Turn 2 -->
+                <div class="col">
+                    <div class="text-center border border-dark" id="Result-slot-turn-2">결과</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark" id="Damage-slot-turn-2">데미지</div>
+                </div>
+
+                <!-- Turn 3 -->
+                <div class="col">
+                    <div class="text-center border border-dark" id="Result-slot-turn-3">결과</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark" id="Damage-slot-turn-3">데미지</div>
+                </div>
+
+                <!-- Turn 4 -->
+                <div class="col">
+                    <div class="text-center border border-dark" id="Result-slot-turn-4">결과</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark" id="Damage-slot-turn-4">데미지</div>
+                </div>
+            </div>
+
+            <!-- 플레이어 정보 -->
             <div class="row mb-1">
                 <div class="col">
-                    <div class="text-center border border-dark fs-2" typeof="form-control">999</div>
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-5">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-6">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-7">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-dark fs-2" typeof="form-control" id="Attack-final-value-8">999</div>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row mb-3">
+
+                <!-- Turn 1 -->
                 <div class="col">
-                    <div class="text-center border border-primary" typeof="form-control">999</div>
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-5">999</div>
                 </div>
                 <div class="col">
-                    <div class="text-center border border-danger" typeof="form-control">999</div>
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-5">999</div>
                 </div>
+
+                <!-- Turn 2 -->
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-6">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-6">999</div>
+                </div>
+
+                <!-- Turn 3 -->
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-7">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-7">999</div>
+                </div>
+
+                <!-- Turn 4 -->
+                <div class="col">
+                    <div class="text-center border border-primary" typeof="form-control" id="Attack-value-slot-8">999</div>
+                </div>
+                <div class="col">
+                    <div class="text-center border border-danger" typeof="form-control" id="Decrease-value-slot-8">999</div>
+                </div>
+
             </div>
 
             <!-- 플레이어 체력 정보-->
             <label for="formDice" class="form-label mb-0 ">플레이어 정보</label>
             <div class="input-group mb-3">
                 <span class="input-group-text input-group-sm" id="HP-input-label">Lv.</span>
-                <span class="input-group-text " id="HP-Value-input-label">999</span>
+                <span class="input-group-text " id="Lv-value-player-battle-label">999</span>
                 <span class="input-group-text input-group-sm" id="HP-input-label">HP</span>
-                <span class="input-group-text " id="HP-Value-input-label">[999/999]</span>
+                <span class="input-group-text " id="HP-value-player-battle-label">[999/999]</span>
             </div>
 
             <!-- 턴 진행 버튼 -->
@@ -353,8 +467,9 @@
 
     </div>
 
+
     <!-- 주사위 키우기 게임 js -->
-    <script src="DiceGrowGame.js"></script>
+    <script src="DiceGrowGame.js?ver1"></script>
     <!-- 메인 모듈 -->
     <script src="DiceGrow_Core.js"></script>
     <!-- Form별 모듈 js -->

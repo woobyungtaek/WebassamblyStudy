@@ -104,14 +104,18 @@ function RefreshPlayerStateUI() {
 
     RefreshHPUI("label-hp-value-text");
 
-    var lv = coreModule._Get_Player_Level();
-    changeSpanText("label-level-value-text", format('{0}', lv));
+    RefreshLvUI("label-level-value-text");
 
     var exp = coreModule._Get_Player_Exp(); 
     var max_exp = coreModule._Get_Player_MaxExp();
     changeSpanText("label-exp-value-text", format('[{0}/{1}]', exp, max_exp));
 
     RefreshDiceSlotUI();
+}
+
+function RefreshLvUI(ui_key) {
+    var lv = coreModule._Get_Player_Level();
+    changeSpanText(ui_key, format('{0}', lv));
 }
 
 // HP 갱신
@@ -227,15 +231,16 @@ function RefreshAttackPointUI() {
 }
 
 // 슬롯별 버튼
-function OnClicked_EnemyAttackDec(slot, isInc) {
-    coreModule._SetEnemyAttackDecPoint(slot - 1, isInc);
+function OnClicked_IncreaseButton(slotType, slotNum) {
+         
+    coreModule._IncreaseSlotPoint(slotType, slotNum - 1);
 
     RefreshDicePointUI();
     RefreshAttackPointUI();
 }
 
-function OnClicked_PlayerAttack(slot, isIncrease) {
-    coreModule._SetPlayerAttackPoint(slot - 1, isInc);
+function OnClicked_DecreaseButton(slotType, slotNum) {
+    coreModule._DecreaseSlotPoint(slotType, slotNum - 1);
 
     RefreshDicePointUI();
     RefreshAttackPointUI();
@@ -243,7 +248,7 @@ function OnClicked_PlayerAttack(slot, isIncrease) {
 
 // 전투 시작 버튼 
 function OnClicked_BattleStartButton() {
-    currentTurn = 0;
+    InitBattleForm();
 
     AllFormNoShow();
     showElement("BattleForm", true);
@@ -252,6 +257,58 @@ function OnClicked_BattleStartButton() {
 //-------------------------
 //     전투 Form
 //-------------------------
+
+// 전투 초기화
+function InitBattleForm() {
+    currentTurn = 0;
+
+    // 플레이어 레벨, 체력 갱신
+    RefreshLvUI("Lv-value-player-battle-label");
+    RefreshHPUI("HP-value-player-battle-label");
+
+    // 공격력 표시 갱신
+    RefreshAttackValueUI();
+    RefreshDecreaseValueUI();
+}
+
+// UI별 갱신
+
+// 공격력 갱신
+function RefreshAttackValueUI() {
+    var slot = 1;
+    for (var idx = 0; idx < 4; ++idx) {
+        // 적 공격력
+        changeSpanText(format('Attack-value-slot-{0}', slot), format('{0}', coreModule._Get_Attack_Point(index)));
+        slot++;
+    }
+    for (var idx = 0; idx < 4; ++idx) {
+        // 플레이어 공격력
+        changeSpanText(format('Attack-value-slot-{0}', slot), format('{0}', coreModule._Get_Attack_Point(index)));
+        slot++;
+    }
+}
+
+// 공격력 감소 갱신
+function RefreshDecreaseValueUI() {
+    for (var idx = 0; idx < 8; ++idx) {
+        // 적 공격력 감소
+        changeSpanText(format('Decrease-value-slot-{0}', slot + 1), format('{0}', coreModule._Get_Dec_Point(index)));
+    }
+}
+
+// 최종 공격력 갱신
+function RefreshAttackFinalValueUI() {
+    for (var idx = 0; idx < 8; ++idx) {
+    }
+}
+
+// 턴 별 결과 갱신
+function RefreshTurnResultValueUI() {
+
+}
+
+
+
 
 // 다음 턴 버튼
 function OnClicked_NextTurnButton() {

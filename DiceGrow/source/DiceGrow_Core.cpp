@@ -22,9 +22,7 @@ extern "C"
 	std::mt19937 gen(time(NULL));
 	std::uniform_int_distribution<int> dist(0, 5);
 
-	// 적 공격력 감소, 공격력 배열, 포인트 투자 한 값이 들어간다.
-	int decArr[4];
-	int attackArr[4];
+	int finalAttackValue[8] = { 0, };
 
 	// 플레이어, 적 객체 생성 및 초기화
 	int EMSCRIPTEN_KEEPALIVE Init()
@@ -42,7 +40,7 @@ extern "C"
 			enemy = new Character();
 			enemy->Init();
 		}
-		
+
 		return 0;
 	}
 
@@ -134,23 +132,74 @@ extern "C"
 
 	void EMSCRIPTEN_KEEPALIVE InitBattleArr()
 	{
-		for (int index = 0; index < 4; ++index)
+		player->ResetBattleArr();
+
+		for (int idx = 0; idx < 8; ++idx)
 		{
-			decArr[index] = 0;
-			attackArr[index] = 0;
+			finalAttackValue[idx] = 0;
 		}
 	}
 
 	int EMSCRIPTEN_KEEPALIVE Get_Dec_Point(int slot)
 	{
-		// 2배수 적용
-		return decArr[slot] * 2;
+		// 0~3 : 적 ui, 4~7 : 플레이어 ui
+
+		if (slot < 4)
+		{
+			// 적
+			return enemy->GetDecValue(slot);
+		}
+		else
+		{
+			//플레이어
+			return player->GetDecValue(slot - 4);
+		}
 	}
-	
+
 	int EMSCRIPTEN_KEEPALIVE Get_Attack_Point(int slot)
 	{
-		return attackArr[slot];
-	}	
+		// 0~3 : 적 ui, 4~7 : 플레이어 ui
+
+		if (slot < 4)
+		{
+			// 적
+			return enemy->GetAttackValue(slot);
+		}
+		else
+		{
+			//플레이어
+			return player->GetAttackValue(slot - 4);
+		}
+	}
+
+	int EMSCRIPTEN_KEEPALIVE Get_Final_Attack(int slot)
+	{
+		// 0~3 : 적 ui, 4~7 : 플레이어 ui
+		int arrIdx = slot % 4;
+		if (slot < 0 || slot >= 8) { return 0; }
+		if (slot < 4)
+		{
+			finalAttackValue[slot] = enemy->GetAttackValue(arrIdx) - player->GetDecValue(arrIdx);
+		}
+		else
+		{
+			finalAttackValue[slot] = player->GetAttackValue(arrIdx) - enemy->GetDecValue(arrIdx);
+		}
+
+		return finalAttackValue[slot];
+	}
+
+	int EMSCRIPTEN_KEEPALIVE Get_Result_Damage(int turnSlot)
+	{
+		// 0~3 : 적 최종 공격력, 4~7 : 플레이어 최종 공격력
+		// turnSlot : 0 ~ 3값
+		// turnSlot+4
+
+		// re <  0 : 플레이어 패배
+		// re == 0 : 무승부
+		// re >  0 : 플레이어 승리
+		return finalAttackValue[turnSlot + 4] - finalAttackValue[turnSlot];
+	}
 
 	void UseDicePoint(int value)
 	{
@@ -159,34 +208,56 @@ extern "C"
 		player->UseDicePoint(value);
 	}
 
-	// 고려사항 Dice포인트가 남아있나.
-	// 해당 슬롯에서 제거할 포인트가 남아있나. 
-	void EMSCRIPTEN_KEEPALIVE SetEnemyAttackDecPoint(int slot, bool isInc)
+	// SlotPoint 증가
+	void EMSCRIPTEN_KEEPALIVE IncreaseSlotPoint(int slotType, int slotNum)
 	{
-		if (isInc == true) 
-		{
-			decArr[slot] += 1;
-			UseDicePoint(-1);
-		}
-		else
-		{
-			decArr[slot] -= 1;
-			UseDicePoint(1);
-		}	
+		if (player == nullptr) { return; }
+
+		// Dice포인트가 남아있는지 확인한다.
+		if (player->GetDicePoint() <= 0) { return; }
+
+		// type [0:EnemyAttackDec][1:PlayerAttack]
+		// type을 확인한다.
+		if (slotType == 0) { player->SetDecArr(slotNum, 1); }
+		else if (slotType == 1) { player->SetAttackArr(slotNum, 1); }
+		else { return; }
+
+		// DicePoint 감소
+		player->UseDicePoint(-1);
+
 	}
-	void EMSCRIPTEN_KEEPALIVE SetPlayerAttackPoint(int slot, bool isInc)
+
+	// SlotPoint 감소
+	void EMSCRIPTEN_KEEPALIVE DecreaseSlotPoint(int slotType, int slotNum)
 	{
-		if (isInc == true)
+		if (player == nullptr) { return; }
+
+		// type [0:EnemyAttackDec][1:PlayerAttack]
+		// type을 확인한다.
+		// slot 확인 후 0보다 크면 감소
+		if (slotType == 0)
 		{
-			attackArr[slot] += 1;
-			UseDicePoint(-1);
+			if (player->GetDecValue(slotNum) <= 0) { return; }
+			player->SetDecArr(slotNum, -1);
 		}
-		else
+		else if (slotType == 1)
 		{
-			attackArr[slot] -= 1;
-			UseDicePoint(1);
+			if (player->GetAttackValue(slotNum) <= 0) { return; }
+			player->SetAttackArr(slotNum, -1);
 		}
+		else { return; }
+
+		// DicePoint 증가
+		player->UseDicePoint(1);
 	}
+
+#pragma endregion
+
+#pragma region 전투
+
+	// 최초 상태로 초기화
+
+	// 
 
 #pragma endregion
 
