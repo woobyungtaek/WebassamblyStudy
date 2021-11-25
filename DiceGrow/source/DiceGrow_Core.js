@@ -1738,7 +1738,7 @@ var ASM_CONSTS = {
       }
     }
   
-  var ___heap_base = 5246960;
+  var ___heap_base = 5247024;
   Module["___heap_base"] = ___heap_base;
   function getMemory(size) {
       // After the runtime is initialized, we must only use sbrk() normally.
@@ -2150,7 +2150,7 @@ var ASM_CONSTS = {
 
   var ___memory_base = new WebAssembly.Global({'value': 'i32', 'mutable': false}, 1024);
 
-  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5246960);
+  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5247024);
 
   var ___table_base = new WebAssembly.Global({'value': 'i32', 'mutable': false}, 1);
 
@@ -2284,18 +2284,38 @@ var _Get_Random_Dice_Point = Module["_Get_Random_Dice_Point"] = function() {
 };
 
 /** @type {function(...*):?} */
-var _InitBattleArr = Module["_InitBattleArr"] = function() {
-  return (_InitBattleArr = Module["_InitBattleArr"] = Module["asm"]["InitBattleArr"]).apply(null, arguments);
+var _Get_Dec_Point_Player = Module["_Get_Dec_Point_Player"] = function() {
+  return (_Get_Dec_Point_Player = Module["_Get_Dec_Point_Player"] = Module["asm"]["Get_Dec_Point_Player"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
-var _Get_Dec_Point = Module["_Get_Dec_Point"] = function() {
-  return (_Get_Dec_Point = Module["_Get_Dec_Point"] = Module["asm"]["Get_Dec_Point"]).apply(null, arguments);
+var _Get_Attack_Point_Player = Module["_Get_Attack_Point_Player"] = function() {
+  return (_Get_Attack_Point_Player = Module["_Get_Attack_Point_Player"] = Module["asm"]["Get_Attack_Point_Player"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
-var _Get_Attack_Point = Module["_Get_Attack_Point"] = function() {
-  return (_Get_Attack_Point = Module["_Get_Attack_Point"] = Module["asm"]["Get_Attack_Point"]).apply(null, arguments);
+var _Get_Dec_Point_Enemy = Module["_Get_Dec_Point_Enemy"] = function() {
+  return (_Get_Dec_Point_Enemy = Module["_Get_Dec_Point_Enemy"] = Module["asm"]["Get_Dec_Point_Enemy"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _Get_Attack_Point_Enemy = Module["_Get_Attack_Point_Enemy"] = function() {
+  return (_Get_Attack_Point_Enemy = Module["_Get_Attack_Point_Enemy"] = Module["asm"]["Get_Attack_Point_Enemy"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _Get_Final_Attack_Player = Module["_Get_Final_Attack_Player"] = function() {
+  return (_Get_Final_Attack_Player = Module["_Get_Final_Attack_Player"] = Module["asm"]["Get_Final_Attack_Player"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _Get_Final_Attack_Enemy = Module["_Get_Final_Attack_Enemy"] = function() {
+  return (_Get_Final_Attack_Enemy = Module["_Get_Final_Attack_Enemy"] = Module["asm"]["Get_Final_Attack_Enemy"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _Get_Turn_Result = Module["_Get_Turn_Result"] = function() {
+  return (_Get_Turn_Result = Module["_Get_Turn_Result"] = Module["asm"]["Get_Turn_Result"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
@@ -2306,6 +2326,11 @@ var _IncreaseSlotPoint = Module["_IncreaseSlotPoint"] = function() {
 /** @type {function(...*):?} */
 var _DecreaseSlotPoint = Module["_DecreaseSlotPoint"] = function() {
   return (_DecreaseSlotPoint = Module["_DecreaseSlotPoint"] = Module["asm"]["DecreaseSlotPoint"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _InitBattleArr = Module["_InitBattleArr"] = function() {
+  return (_InitBattleArr = Module["_InitBattleArr"] = Module["asm"]["InitBattleArr"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
@@ -2343,13 +2368,16 @@ var _free = Module["_free"] = function() {
   return (_free = Module["_free"] = Module["asm"]["free"]).apply(null, arguments);
 };
 
-var _player = Module['_player'] = 1032;
-var _enemy = Module['_enemy'] = 1036;
-var _gen = Module['_gen'] = 1040;
-var _dist = Module['_dist'] = 3540;
-var ___THREW__ = Module['___THREW__'] = 4064;
-var ___threwValue = Module['___threwValue'] = 4068;
-var ___cxa_new_handler = Module['___cxa_new_handler'] = 3560;
+var _player = Module['_player'] = 1040;
+var _enemy = Module['_enemy'] = 1044;
+var _gen = Module['_gen'] = 1048;
+var _dist = Module['_dist'] = 3548;
+var _finalAttackArr_player = Module['_finalAttackArr_player'] = 3568;
+var _finalAttackArr_enemy = Module['_finalAttackArr_enemy'] = 3584;
+var _turnResultArr = Module['_turnResultArr'] = 3600;
+var ___THREW__ = Module['___THREW__'] = 4128;
+var ___threwValue = Module['___threwValue'] = 4132;
+var ___cxa_new_handler = Module['___cxa_new_handler'] = 3624;
 
 
 

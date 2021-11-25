@@ -22,7 +22,10 @@ extern "C"
 	std::mt19937 gen(time(NULL));
 	std::uniform_int_distribution<int> dist(0, 5);
 
-	int finalAttackValue[8] = { 0, };
+	const int TURN_COUNT = 4;
+	int finalAttackArr_player[TURN_COUNT] = { 0, };
+	int finalAttackArr_enemy[TURN_COUNT] = { 0, };
+	int turnResultArr[TURN_COUNT] = { 0, };
 
 	// 플레이어, 적 객체 생성 및 초기화
 	int EMSCRIPTEN_KEEPALIVE Init()
@@ -127,80 +130,65 @@ extern "C"
 #pragma endregion
 
 
-#pragma region 전투 준비
+#pragma region 전투 준비 & 전투
 
-
-	void EMSCRIPTEN_KEEPALIVE InitBattleArr()
+	// 플레이어 공격, 적 감소 수치 얻기
+	int EMSCRIPTEN_KEEPALIVE Get_Dec_Point_Player(int slot)
 	{
-		player->ResetBattleArr();
-
-		for (int idx = 0; idx < 8; ++idx)
-		{
-			finalAttackValue[idx] = 0;
-		}
+		return player->GetDecValue(slot);
 	}
 
-	int EMSCRIPTEN_KEEPALIVE Get_Dec_Point(int slot)
+	int EMSCRIPTEN_KEEPALIVE Get_Attack_Point_Player(int slot)
 	{
-		// 0~3 : 적 ui, 4~7 : 플레이어 ui
-
-		if (slot < 4)
-		{
-			// 적
-			return enemy->GetDecValue(slot);
-		}
-		else
-		{
-			//플레이어
-			return player->GetDecValue(slot - 4);
-		}
+		return player->GetAttackValue(slot);
 	}
 
-	int EMSCRIPTEN_KEEPALIVE Get_Attack_Point(int slot)
+	//  적 공격, 플레이어 감소 수치 얻기
+	int EMSCRIPTEN_KEEPALIVE Get_Dec_Point_Enemy(int slot)
 	{
-		// 0~3 : 적 ui, 4~7 : 플레이어 ui
-
-		if (slot < 4)
-		{
-			// 적
-			return enemy->GetAttackValue(slot);
-		}
-		else
-		{
-			//플레이어
-			return player->GetAttackValue(slot - 4);
-		}
+		return enemy->GetDecValue(slot);
 	}
 
-	int EMSCRIPTEN_KEEPALIVE Get_Final_Attack(int slot)
+	int EMSCRIPTEN_KEEPALIVE Get_Attack_Point_Enemy(int slot)
 	{
-		// 0~3 : 적 ui, 4~7 : 플레이어 ui
-		int arrIdx = slot % 4;
-		if (slot < 0 || slot >= 8) { return 0; }
-		if (slot < 4)
-		{
-			finalAttackValue[slot] = enemy->GetAttackValue(arrIdx) - player->GetDecValue(arrIdx);
-		}
-		else
-		{
-			finalAttackValue[slot] = player->GetAttackValue(arrIdx) - enemy->GetDecValue(arrIdx);
-		}
-
-		return finalAttackValue[slot];
+		return enemy->GetAttackValue(slot);
 	}
 
-	int EMSCRIPTEN_KEEPALIVE Get_Result_Damage(int turnSlot)
-	{
-		// 0~3 : 적 최종 공격력, 4~7 : 플레이어 최종 공격력
-		// turnSlot : 0 ~ 3값
-		// turnSlot+4
+	// 최종 공격력 계산
 
+	// 최종 공격력 얻기
+	int EMSCRIPTEN_KEEPALIVE Get_Final_Attack_Player(int slot)
+	{
+		return finalAttackArr_player[slot];
+	}
+
+	int EMSCRIPTEN_KEEPALIVE Get_Final_Attack_Enemy(int slot)
+	{
+		return finalAttackArr_enemy[slot];
+	}
+
+	// 턴 결과 얻기
+	int EMSCRIPTEN_KEEPALIVE Get_Turn_Result(int turnSlot)
+	{
 		// re <  0 : 플레이어 패배
 		// re == 0 : 무승부
 		// re >  0 : 플레이어 승리
-		return finalAttackValue[turnSlot + 4] - finalAttackValue[turnSlot];
+		return turnResultArr[turnSlot];
 	}
 
+	// 전투 결과 얻기
+	int EMSCRIPTEN_KEEPALIVE Get_Battle_Result()
+	{
+		// 둘다 살아있다면 전투 진행 0
+		int pHP = player->GetHP();
+		int eHP = enemy->GetHP();
+
+		if (pHP <= 0) { return 2; } // 플레이어 HP가 0보다 작다면 패배 2
+		if (eHP <= 0) { return 1; } // 플레이어가 살아있고 적 HP가 0보다 작다면 승리 1
+		return 0; // 전투 계속 진행
+	}
+
+	//다이스 포인트 사용, 반환
 	void UseDicePoint(int value)
 	{
 		if (player == nullptr) { return; }
@@ -250,17 +238,53 @@ extern "C"
 		// DicePoint 증가
 		player->UseDicePoint(1);
 	}
+		
+	// 전투 초기화
+	void EMSCRIPTEN_KEEPALIVE InitBattleArr()
+	{
+		// 플레이어, 적 상태 초기화
+		
+		// 적의 경우 DB로부터 받아온 값을 Enemy에 셋팅한다.
+		for (int idx = 0; idx < TURN_COUNT; ++idx)
+		{
+			finalAttackArr_player[idx] = 0;
+			finalAttackArr_enemy[idx] = 0;
+			turnResultArr[idx] = 0;
+		}
+
+		// 최종 공격 값 계산
+		for (int idx = 0; idx < TURN_COUNT; ++idx)
+		{
+			finalAttackArr_player[idx] = player->GetAttackValue(idx) - enemy->GetDecValue(idx);
+			finalAttackArr_enemy[idx]  = enemy->GetAttackValue(idx)  - player->GetDecValue(idx);
+
+			if (finalAttackArr_player[idx] < 0) { finalAttackArr_player[idx] = 0; }
+			if (finalAttackArr_enemy[idx]  < 0) { finalAttackArr_enemy[idx] = 0;  }
+		}
+
+		// 최종 결과 값 계산
+		for (int idx = 0; idx < TURN_COUNT; ++idx)
+		{
+			turnResultArr[idx] = finalAttackArr_player[idx] - finalAttackArr_enemy[idx];
+		}
+
+		// HP 계산
+		for (int idx = 0; idx < TURN_COUNT; ++idx)
+		{
+			int dmg = turnResultArr[idx];
+
+			if (dmg < 0) {
+				// 플레이어 데미지
+			}
+			else if (dmg > 0) {
+				// 적 데미지
+			}
+		}
+	}
+
+	
 
 #pragma endregion
-
-#pragma region 전투
-
-	// 최초 상태로 초기화
-
-	// 
-
-#pragma endregion
-
 
 	// 적 정보 획득, 설정
 

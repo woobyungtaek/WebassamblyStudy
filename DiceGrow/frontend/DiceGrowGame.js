@@ -106,7 +106,7 @@ function RefreshPlayerStateUI() {
 
     RefreshLvUI("label-level-value-text");
 
-    var exp = coreModule._Get_Player_Exp(); 
+    var exp = coreModule._Get_Player_Exp();
     var max_exp = coreModule._Get_Player_MaxExp();
     changeSpanText("label-exp-value-text", format('[{0}/{1}]', exp, max_exp));
 
@@ -127,9 +127,9 @@ function RefreshHPUI(ui_key) {
 
 // 주사위 갱신
 function RefreshDiceSlotUI() {
-    for (var index = 0; index < 6; ++index) {
-        var dice_value = coreModule._Get_Player_Dice(index);
-        changeSpanText("text-dice-value-" + index, format('{0}', dice_value));
+    for (var idx = 0; idx < 6; ++idx) {
+        var dice_value = coreModule._Get_Player_Dice(idx);
+        changeSpanText("text-dice-value-" + idx, format('{0}', dice_value));
     }
 }
 
@@ -141,15 +141,15 @@ function OnOffPlusButtons() {
     if (lv_point === 0) {
         showElement("button-maxhp-increase", false);
 
-        for (var index = 0; index < 6; ++index) {
-            showElement("button-dice-increase-" + index, false);
+        for (var idx = 0; idx < 6; ++idx) {
+            showElement("button-dice-increase-" + idx, false);
         }
     }
     else {
         showElement("button-maxhp-increase", true);
 
-        for (var index = 0; index < 6; ++index) {
-            showElement("button-dice-increase-" + index, true);
+        for (var idx = 0; idx < 6; ++idx) {
+            showElement("button-dice-increase-" + idx, true);
         }
     }
 
@@ -165,7 +165,7 @@ function OnClicked_MaxHPIncreaseButton() {
 function OnClicked_DiceValueIncreaseButton(slot) {
     coreModule._IncreaseDiceValue(slot);
     RefreshDiceSlotUI();
-    OnOffPlusButtons(); 
+    OnOffPlusButtons();
 }
 
 // 진행하기 버튼
@@ -224,15 +224,15 @@ function RefreshDicePointUI() {
 }
 
 function RefreshAttackPointUI() {
-    for (var index = 0; index < 4; ++index) {
-        changeSpanText(format('Attack-dec-enemy-{0}', index + 1), format('{0}', coreModule._Get_Dec_Point(index)));
-        changeSpanText(format('Attack-player-{0}', index + 1), format('{0}', coreModule._Get_Attack_Point(index)));
+    for (var idx = 0; idx < 4; ++idx) {
+        changeSpanText(format('Attack-dec-enemy-{0}', idx + 1), format('{0}', coreModule._Get_Dec_Point_Player(idx)));
+        changeSpanText(format('Attack-player-{0}', idx + 1), format('{0}', coreModule._Get_Attack_Point_Player(idx)));
     }
 }
 
 // 슬롯별 버튼
 function OnClicked_IncreaseButton(slotType, slotNum) {
-         
+
     coreModule._IncreaseSlotPoint(slotType, slotNum - 1);
 
     RefreshDicePointUI();
@@ -262,6 +262,9 @@ function OnClicked_BattleStartButton() {
 function InitBattleForm() {
     currentTurn = 0;
 
+    // 결과 계산
+    coreModule._InitBattleArr();
+
     // 플레이어 레벨, 체력 갱신
     RefreshLvUI("Lv-value-player-battle-label");
     RefreshHPUI("HP-value-player-battle-label");
@@ -269,61 +272,73 @@ function InitBattleForm() {
     // 공격력 표시 갱신
     RefreshAttackValueUI();
     RefreshDecreaseValueUI();
+    RefreshAttackFinalValueUI();
+    RefreshTurnResultValueUI();
 }
 
 // UI별 갱신
 
 // 공격력 갱신
 function RefreshAttackValueUI() {
-    var slot = 1;
     for (var idx = 0; idx < 4; ++idx) {
-        // 적 공격력
-        changeSpanText(format('Attack-value-slot-{0}', slot), format('{0}', coreModule._Get_Attack_Point(index)));
-        slot++;
-    }
-    for (var idx = 0; idx < 4; ++idx) {
-        // 플레이어 공격력
-        changeSpanText(format('Attack-value-slot-{0}', slot), format('{0}', coreModule._Get_Attack_Point(index)));
-        slot++;
+        changeSpanText(format('Attack-value-enemy-{0}', idx), format('{0}', coreModule._Get_Attack_Point_Enemy(idx)));
+        changeSpanText(format('Attack-value-player-{0}', idx), format('{0}', coreModule._Get_Attack_Point_Player(idx)));
     }
 }
 
 // 공격력 감소 갱신
 function RefreshDecreaseValueUI() {
-    for (var idx = 0; idx < 8; ++idx) {
-        // 적 공격력 감소
-        changeSpanText(format('Decrease-value-slot-{0}', slot + 1), format('{0}', coreModule._Get_Dec_Point(index)));
+    for (var idx = 0; idx < 4; ++idx) {
+        // 상대방의 값에 넣어야한다.
+        changeSpanText(format('Decrease-value-player-{0}', idx), format('{0}', coreModule._Get_Dec_Point_Enemy(idx)));
+        changeSpanText(format('Decrease-value-enemy-{0}', idx), format('{0}', coreModule._Get_Dec_Point_Player(idx)));
     }
 }
 
 // 최종 공격력 갱신
 function RefreshAttackFinalValueUI() {
-    for (var idx = 0; idx < 8; ++idx) {
+    for (var idx = 0; idx < 4; ++idx) {
+        changeSpanText(format('Attack-final-enemy-{0}', idx), format('{0}', coreModule._Get_Final_Attack_Enemy(idx)));
+        changeSpanText(format('Attack-final-player-{0}', idx), format('{0}', coreModule._Get_Final_Attack_Player(idx)));
     }
 }
 
 // 턴 별 결과 갱신
 function RefreshTurnResultValueUI() {
+    for (var idx = 0; idx < 4; ++idx) {
+        var dmg = coreModule._Get_Turn_Result(idx);
 
+        if (dmg > 0) {
+            changeSpanText(format('Result-slot-turn-{0}', idx), '승리');
+        }
+        else if (dmg < 0) {
+            changeSpanText(format('Result-slot-turn-{0}', idx), '패배');
+        }
+        else {
+            changeSpanText(format('Result-slot-turn-{0}', idx), '무승부');
+        }
+
+        changeSpanText(format('Damage-slot-turn-{0}', idx), format('{0}', dmg));
+    }
 }
-
-
-
 
 // 다음 턴 버튼
-function OnClicked_NextTurnButton() {
-    currentTurn += 1;
-    console.log("CurrentTurn : " + currentTurn);
-}
-
-// 다음 라운드 버튼
-function OnClicked_NextRoundButton() {
+function OnClicked_ConfirmButton() {
     AllFormNoShow();
-    showElement("RollDiceForm", true);
-}
 
-// 전투 종료 버튼
-function OnClicked_BattleEndButton() {
-    AllFormNoShow();
-    showElement("PlayerStateForm", true);
+    // 게임 결과를 가져와서
+    // 다음 라운드 갈지
+    // 플레이어 상태 창으로 갈지 정해야함
+    var battleResult = coreModule._Get_Battle_Result();
+
+    if (battleResult === 0) {
+        showElement("RollDiceForm", true);
+    }
+    else if (battleResult === 1) {
+        showElement("PlayerStateForm", true);
+    }
+    else {
+        // 게임 오버 form
+        showElement("PlayerStateForm", true);
+    }
 }
